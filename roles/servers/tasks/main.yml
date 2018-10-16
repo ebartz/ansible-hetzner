@@ -5,7 +5,7 @@
       server_type: cx11
       datacenter: nbg1-dc3
       ssh_keys:
-        'jasper.wiegratz@sva.de'
+        'enricobartz'
   block:
     - hcloud_server:
         name:
@@ -14,3 +14,7 @@
           - kube-worker-2
           - kube-worker-3
 
+- name: Refresh inventory
+  meta: refresh_inventory
+- pause:
+    seconds: 30

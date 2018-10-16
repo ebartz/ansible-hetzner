@@ -1,0 +1,4 @@
+---
+- import_playbook: servers.yml
+- import_playbook: docker.yml
+- import_playbook: rancher.yml
