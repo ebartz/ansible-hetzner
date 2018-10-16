@@ -8,4 +8,4 @@
   remote_user: root
   tasks:
     - name: join the cluster
-      shell: "{{cluster_command}} --worker"
+      shell: "{{ hostvars['kube-master']['cluster_command'] }} --worker"
