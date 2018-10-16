@@ -1,31 +1,18 @@
-- hcloud_server:
-    name: kube-master
-    image: centos-7
-    server_type: cx11
-    datacenter: nbg1-dc3
-    ssh_keys:
-    - 'enricobartz'
+- module_defaults:
+    hcloud_server:
+      token: "{{ lookup('env','HCLOUD_TOKEN') | default(hetzner_token, true) }}"
+      image: centos-7
+      server_type: cx11
+      datacenter: nbg1-dc3
+      ssh_keys:
+        'jasper.wiegratz@sva.de'
+  block:
+    - hcloud_server:
+        name: kube-master
+    - hcloud_server:
+        name: kube-worker-1
+    - hcloud_server:
+        name: kube-worker-2
+    - hcloud_server:
+        name: kube-worker-3
 
-- hcloud_server:
-    name: kube-worker-1
-    image: centos-7
-    server_type: cx11
-    datacenter: nbg1-dc3
-    ssh_keys:
-    - 'enricobartz'
-
-- hcloud_server:
-    name: kube-worker-2
-    image: centos-7
-    server_type: cx11
-    datacenter: nbg1-dc3
-    ssh_keys:
-    - 'enricobartz'
-
-- hcloud_server:
-    name: kube-worker-3
-    image: centos-7
-    server_type: cx11
-    datacenter: nbg1-dc3
-    ssh_keys:
-    - 'enricobartz'
