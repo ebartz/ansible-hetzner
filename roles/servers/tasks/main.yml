@@ -8,11 +8,9 @@
         'jasper.wiegratz@sva.de'
   block:
     - hcloud_server:
-        name: kube-master
-    - hcloud_server:
-        name: kube-worker-1
-    - hcloud_server:
-        name: kube-worker-2
-    - hcloud_server:
-        name: kube-worker-3
+        name:
+          - kube-master
+          - kube-worker-1
+          - kube-worker-2
+          - kube-worker-3
 
