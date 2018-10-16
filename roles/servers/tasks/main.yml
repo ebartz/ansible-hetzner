@@ -1,0 +1,31 @@
+- hcloud_server:
+    name: kube-master
+    image: centos-7
+    server_type: cx11
+    datacenter: nbg1-dc3
+    ssh_keys:
+    - 'enricobartz'
+
+- hcloud_server:
+    name: kube-worker-1
+    image: centos-7
+    server_type: cx11
+    datacenter: nbg1-dc3
+    ssh_keys:
+    - 'enricobartz'
+
+- hcloud_server:
+    name: kube-worker-2
+    image: centos-7
+    server_type: cx11
+    datacenter: nbg1-dc3
+    ssh_keys:
+    - 'enricobartz'
+
+- hcloud_server:
+    name: kube-worker-3
+    image: centos-7
+    server_type: cx11
+    datacenter: nbg1-dc3
+    ssh_keys:
+    - 'enricobartz'
