@@ -14,7 +14,8 @@
           - kube-worker-2
           - kube-worker-3
 
-- name: Refresh inventory
-  meta: refresh_inventory
 - pause:
     seconds: 30
+
+- name: Refresh inventory
+  meta: refresh_inventory
