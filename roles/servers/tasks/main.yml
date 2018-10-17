@@ -1,11 +1,10 @@
 - module_defaults:
     hcloud_server:
       token: "{{ lookup('env','HCLOUD_TOKEN') | default(hetzner_token, true) }}"
-      image: centos-7
-      server_type: cx11
-      datacenter: nbg1-dc3
-      ssh_keys:
-        'enricobartz'
+      image: "{{ hetzner_instance_os }}"
+      server_type: "{{ hetzner_instance_type }}"
+      datacenter: "{{ hetzner_datacenter }}"
+      ssh_keys: "{{ hetzner_ssh_keys }}"
   block:
     - hcloud_server:
         name:
@@ -15,7 +14,7 @@
           - kube-worker-3
 
 - pause:
-    seconds: 30
+    seconds: 60
 
 - name: Refresh inventory
   meta: refresh_inventory
