@@ -1,0 +1,5 @@
+hetzner_instance_type: 'cx11'
+hetzner_ssh_keys: ['enricobartz']
+hetzner_worker_count: 3
+hetzner_instance_os: 'centos-7'
+hetzner_datacenter: 'nbg1-dc3'
