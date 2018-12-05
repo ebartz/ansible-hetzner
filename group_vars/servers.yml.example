@@ -1,0 +1,6 @@
+hetzner_instance_type: 'cx31'
+hetzner_token: 'hetzner-token-goes-here'
+hetzner_ssh_keys: ['key-namegoes-here']
+hetzner_worker_count: 4
+hetzner_instance_os: 'centos-7'
+hetzner_datacenter: 'nbg1-dc3'
