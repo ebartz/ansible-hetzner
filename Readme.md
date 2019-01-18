@@ -4,7 +4,6 @@ Ansible Playbook that will create a Rancher Master and a defined count of worker
 
 Before you start make sure to create the group_vars/servers.yml from the server.yaml.example file.
 
-
 To run this, you need to do something like this:
 
 ```
