@@ -1,6 +1,6 @@
 ---
 - name: 'install docker'
-  shell: 'curl https://releases.rancher.com/install-docker/17.03.sh | sh'
+  shell: 'curl https://releases.rancher.com/install-docker/18.09.sh | sh'
 
 - name: Install basic packages
   yum: 
