@@ -6,3 +6,9 @@
   yum: 
     state: present
     name: iscsi-initiator-utils
+
+- name: Make sure Docker is running
+  systemd:
+    state: started
+    enabled: yes
+    name: docker
