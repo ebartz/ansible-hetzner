@@ -1,29 +1,59 @@
 ---
 - name: Install basic packages
-  yum: state=present name={{ item }}
-  with_items:
-    - epel-release
-    - screen
-    - vim
-    - openssl
-    - net-tools
-    - nmap
-    - wget
-    - curl
-    - unzip
-    - rsync
-    - mlocate
-    - telnet
+  yum: 
+    state: present 
+    name:  
+      - epel-release
+      - screen
+      - vim
+      - openssl
+      - net-tools
+      - nmap
+      - wget
+      - curl
+      - unzip
+      - rsync
+      - mlocate
+      - telnet
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
 - name: Install additional packages
-  yum: state=present name={{ item }}
-  with_items:
-    - glances
-    - htop
-    - jq
+  yum: 
+    state: present 
+    name:
+      - glances
+      - htop
+      - jq
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: Install basic packages
+  yum: 
+    state: present 
+    name:  
+      - screen
+      - vim
+      - openssl
+      - net-tools
+      - nmap
+      - wget
+      - curl
+      - unzip
+      - rsync
+      - mlocate
+      - telnet
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Install additional packages
+  yum: 
+    state: present 
+    name:
+      - glances
+      - htop
+      - jq
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: create rancher master container
-  shell: 'docker run -d --restart=unless-stopped -p 80:80 -p 443:443 rancher/rancher'
+  shell: 'docker run -d --restart=unless-stopped -p 80:80 -p 443:443 rancher/rancher || true' #Todo exception handling if container is already existing
 
 - name: create cluster init file
   template:
@@ -37,7 +67,8 @@
   register: cluster_result
 
 - name: set cluster_command fact
-  set_fact: cluster_command={{ cluster_result.stdout }}
+  set_fact: 
+    cluster_command: '{{ cluster_result.stdout }}'
 
 - name: join the master to the cluster
   shell: "{{cluster_command}} --etcd --controlplane"
