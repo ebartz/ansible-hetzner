@@ -8,7 +8,7 @@
     name: iscsi-initiator-utils
   when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
-- name: Install basic packages
+- name: Install basic packages Debian/Ubuntu
   apt: 
     state: present
     name: open-iscsi
