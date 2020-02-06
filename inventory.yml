@@ -1,0 +1,6 @@
+all:
+  hosts:
+    kube-master:
+      ansible_host: ''
+    kube-worker-1:
+      ansible_host: ''
