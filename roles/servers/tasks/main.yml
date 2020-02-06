@@ -19,6 +19,7 @@
       server_type: "{{ hetzner_instance_type }}"
       datacenter: "{{ hetzner_datacenter }}"
       ssh_keys: "{{ hetzner_ssh_keys }}"
+      state: "{{ hetzner_serverstate }}"
   block:
     - loop: "{{ kubemaster + workernames }}"
       hcloud_server:
