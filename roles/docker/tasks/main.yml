@@ -2,10 +2,17 @@
 - name: 'install docker'
   shell: 'curl https://releases.rancher.com/install-docker/18.09.sh | sh'
 
-- name: Install basic packages
+- name: Install basic packages for Centos/Redhat
   yum: 
     state: present
     name: iscsi-initiator-utils
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: Install basic packages
+  apt: 
+    state: present
+    name: open-iscsi
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: Make sure Docker is running
   systemd:
