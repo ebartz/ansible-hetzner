@@ -1,6 +1,9 @@
 #!/bin/bash
-docker run -d -p 80:80 -p 443:443 --name rancher-server rancher/server:preview
-
+if [ {{ vars.http_proxy }} ];then
+    docker run -d -p 80:80 -p 443:443 -e HTTP_PROXY="{{ vars.http_proxy }}" -e HTTPS_PROXY="{{ vars.http_proxy }}" -e NO_PROXY="{{ vars.no_proxy }}" --name rancher-server rancher/server:preview
+else
+    docker run -d -p 80:80 -p 443:443 --name rancher-server rancher/server:preview
+fi
 while ! curl -k https://localhost/ping; do sleep 3; done
 
 # Login
@@ -8,7 +11,7 @@ LOGINRESPONSE=`curl -s 'https://127.0.0.1/v3-public/localProviders/local?action=
 LOGINTOKEN=`echo $LOGINRESPONSE | jq -r .token`
 
 # Change password
-curl -s 'https://127.0.0.1/v3/users?action=changepassword' -H 'content-type: application/json' -H "Authorization: Bearer $LOGINTOKEN" --data-binary '{"currentPassword":"admin","newPassword":"{{rancher_admin_password}}"}' --insecure
+curl -s 'https://127.0.0.1/v3/users?action=changepassword' -H 'content-type: application/json' -H "Authorization: Bearer $LOGINTOKEN" --data-binary '{"currentPassword":"admin","newPassword":"{{vars.rancher_admin_password}}"}' --insecure
 
 # Create API key
 APIRESPONSE=`curl -s 'https://127.0.0.1/v3/token' -H 'content-type: application/json' -H "Authorization: Bearer $LOGINTOKEN" --data-binary '{"type":"token","description":"automation"}' --insecure`
@@ -17,10 +20,11 @@ APITOKEN=`echo $APIRESPONSE | jq -r .token`
 
 # Configure server-url
 RANCHER_SERVER='https://{{hostvars['kube-master'].ansible_host }}'
+
 curl -s 'https://127.0.0.1/v3/settings/server-url' -H 'content-type: application/json' -H "Authorization: Bearer $APITOKEN" -X PUT --data-binary '{"name":"server-url","value":"'$RANCHER_SERVER'"}' --insecure
 
 # Create cluster
-CLUSTERRESPONSE=`curl -s 'https://127.0.0.1/v3/cluster' -H 'content-type: application/json' -H "Authorization: Bearer $APITOKEN" --data-binary '{"type":"cluster","nodes":[],"rancherKubernetesEngineConfig":{"ignoreDockerVersion":true},"name":"sva-rockz"}' --insecure`
+CLUSTERRESPONSE=`curl -s 'https://127.0.0.1/v3/cluster' -H 'content-type: application/json' -H "Authorization: Bearer $APITOKEN" --data-binary '{"type":"cluster","nodes":[],"rancherKubernetesEngineConfig":{"ignoreDockerVersion":true},"name":"{{ vars.cluster_name }}"}' --insecure`
 # Extract clusterid to use for generating the docker run command
 CLUSTERID=`echo $CLUSTERRESPONSE | jq -r .id`
 

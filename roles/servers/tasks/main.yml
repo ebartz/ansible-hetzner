@@ -5,26 +5,31 @@
   loop: "{{ range(0, hetzner_worker_count)|list }}"
   register: workernames
 
-- set_fact:
+- name: set worker list fact
+  set_fact:
     workernames: "{{ workernames.results | map(attribute='msg') | list }}"
 
-- set_fact: 
+- name: set kubemaster fact
+  set_fact: 
     kubemaster:
       - kube-master
 
-- module_defaults:
+- name: execute hcloud deployment
+  module_defaults:
     hcloud_server:
       api_token: "{{ lookup('env','HCLOUD_TOKEN') | default(hetzner_token, true) }}"
       image: "{{ hetzner_instance_os }}"
       server_type: "{{ hetzner_instance_type }}"
       datacenter: "{{ hetzner_datacenter }}"
       ssh_keys: "{{ hetzner_ssh_keys }}"
+      state: "{{ hetzner_serverstate }}"
   block:
     - loop: "{{ kubemaster + workernames }}"
       hcloud_server:
         name: "{{ item }}"
 
-- pause:
+- name: wait for server deployment
+  pause:
     seconds: 60
 
 - name: Refresh inventory

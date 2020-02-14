@@ -1,0 +1,14 @@
+all:
+  vars: 
+    no_proxy: 'localhost,127.0.0.1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16'
+    http_proxy: http://2.2.2.2:8080
+    cluster_name: 'MyCluster'
+  hosts:
+    kube-master:
+      ansible_host: '1.2.3.4'    
+    kube-worker-1:
+      ansible_host: '1.2.3.5'
+    kube-worker-2:
+      ansible_host: '1.2.3.6'
+    kube-worker-3:
+      ansible_host: '1.2.3.6'

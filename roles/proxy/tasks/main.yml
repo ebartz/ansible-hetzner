@@ -1,0 +1,17 @@
+---
+- name: 'Create directory for docker proxy settings'
+  shell: 'mkdir -p /etc/systemd/system/docker.service.d'
+
+- name: 'Add Proxyconfig'
+  shell: |
+    rm /etc/systemd/system/docker.service.d/http-proxy.conf || true
+    echo >>/etc/systemd/system/docker.service.d/http-proxy.conf [Service]
+    echo >>/etc/systemd/system/docker.service.d/http-proxy.conf Environment=\"HTTP_PROXY='{{ vars.http_proxy }}'\"
+    echo >>/etc/systemd/system/docker.service.d/http-proxy.conf Environment=\"HTTPS_PROXY='{{ vars.http_proxy }}'\"
+    echo >>/etc/systemd/system/docker.service.d/http-proxy.conf Environment=\"HTTPS_PROXY='{{ vars.no_proxy }}'\"
+
+- name: 'Restart Docker Systemd Service '
+  systemd:
+    daemon_reload: yes
+    state: restarted
+    name: docker

@@ -1,0 +1,5 @@
+set_proxy: false
+no_proxy: '0.0.0.0/0' # if not necessary leave blank
+http_proxy: '' # if not necessary leave blank
+cluster_name: 'testcluster'
+rancher_admin_password: 'SvaRockz!'
