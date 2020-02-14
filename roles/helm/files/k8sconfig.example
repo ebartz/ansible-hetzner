@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Config
+clusters:
+- name: "testcluster"
+  cluster:
+    server: "https://x.x.x.x/k8s/clusters/lskdfjö"
+    certificate-authority-data: "dkfjgosdjf98oda8hsfjosda8foads8fjosadfjosadifjoasjfo98saojdfo"
+
+users:
+- name: "testcluster"
+  user:
+    token: "kubeconfig-user-49875:oisadjf9jd8sf9jasd9fj0asdjdfasdf0jfdd0asjf0sajf"
+
+contexts:
+- name: "testcluster"
+  context:
+    user: "testcluster"
+    cluster: "testcluster"
+
+current-context: "testcluster"

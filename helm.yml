@@ -1,0 +1,5 @@
+---
+- hosts: kube-master
+  remote_user: root
+  roles:
+    - helm

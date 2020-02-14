@@ -1,0 +1,54 @@
+---
+- name: Download Kubectl
+  get_url:
+    url: https://storage.googleapis.com/kubernetes-release/release/v1.17.3/bin/linux/amd64/kubectl
+    dest: /usr/local/bin/
+    mode: 775
+  environment:
+    http_proxy: '{{ vars.http_proxy }}'
+    https_proxy: '{{ vars.http_proxy }}'
+
+- name: ensure helm directory exists
+  file:
+    path: ~/.kube
+    state: directory
+
+- name: copy K8S config file
+  copy:
+    src: k8sconfig 
+    dest: ~/.kube/config 
+
+- name: ensure helm directory exists
+  file:
+    path: /tmp/helm/
+    state: directory
+
+- name: Extract Helm Client
+  unarchive:
+    src: https://get.helm.sh/helm-canary-linux-amd64.tar.gz
+    dest: /tmp/helm/
+    remote_src: yes
+  environment:
+    http_proxy: '{{ vars.http_proxy }}'
+    https_proxy: '{{ vars.http_proxy }}'
+
+- name: copy helm binary to /usr/local/bin
+  copy:
+    src: /tmp/helm/linux-amd64/helm
+    dest: /usr/local/bin/helm
+    owner: root
+    group: root
+    mode: u+rwx,g-rwx,o-rx
+    remote_src: yes
+
+- name: init helm
+  shell: 'helm init && helm repo add stable https://kubernetes-charts.storage.googleapis.com'
+  environment:
+    http_proxy: '{{ vars.http_proxy }}'
+    https_proxy: '{{ vars.http_proxy }}'
+
+# - name: install fluent/elastic 
+#   shell: 'helm repo update && helm install stable/fluentd --generate-name'
+#   environment:
+#     http_proxy: '{{ vars.http_proxy }}'
+#     https_proxy: '{{ vars.http_proxy }}'
