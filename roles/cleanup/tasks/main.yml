@@ -5,7 +5,7 @@
 - name: 'cleanup images'
   shell: 'docker rmi -f $(docker images -q) || true'
 
-- name: Remove Certificates
+- name: Remove files and folders
   file:
     path: '{{ item }}'  
     state: absent
