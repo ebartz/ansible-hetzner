@@ -17,6 +17,9 @@ To run this, you need to do something like this:
 # Usage
 ## Install Hetzner environment
 ### Spawn Env at Hetzner
+
+* rename all.yml.example and servers.yml.example and fill in information
+
 ```
 export HCLOUD_TOKEN=hetzner-token-goes-here
 ansible-playbook -i hcloud.yml site.yml
