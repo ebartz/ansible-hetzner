@@ -25,3 +25,5 @@ Thumbs.db
 *.swp
 # Test-Line
 group_vars/servers.yml
+helm/files/k8sconfig
+inventory.yml
