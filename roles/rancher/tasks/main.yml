@@ -15,7 +15,11 @@
       - rsync
       - mlocate
       - telnet
+  environment:
+        http_proxy: '{{ vars.http_proxy }}'
+        https_proxy: '{{ vars.http_proxy }}'
   when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
 
 - name: Install additional packages
   yum: 
@@ -24,6 +28,9 @@
       - glances
       - htop
       - jq
+  environment:
+    http_proxy: '{{ vars.http_proxy }}'
+    https_proxy: '{{ vars.http_proxy }}'
   when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
 - name: Install basic packages
@@ -41,6 +48,9 @@
       - rsync
       - mlocate
       - telnet
+  environment:
+        http_proxy: '{{ vars.http_proxy }}'
+        https_proxy: '{{ vars.http_proxy }}'
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: Install additional packages
@@ -50,10 +60,20 @@
       - glances
       - htop
       - jq
+  environment:
+        http_proxy: '{{ vars.http_proxy }}'
+        https_proxy: '{{ vars.http_proxy }}'
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
+- name: check if rancher container is already there
+  shell: docker ps -a
+  register: result
+  
+
 - name: create rancher master container
-  shell: 'docker run -d --restart=unless-stopped -p 80:80 -p 443:443 rancher/rancher || true' #Todo exception handling if container is already existing
+  shell: docker run -d --restart=unless-stopped -p 80:80 -p 443:443 -e HTTP_PROXY="'{{ vars.http_proxy }}'" -e HTTPS_PROXY="'{{ vars.http_proxy }}'" -e NO_PROXY="localhost,127.0.0.1,10.0.0.0/8,172.20.0.0/16" rancher/rancher || true
+  # when: result.stdout.find('rancher') != -1
+  
 
 - name: create cluster init file
   template:
@@ -66,9 +86,16 @@
   shell: '/usr/local/bin/cluster_init.sh'
   register: cluster_result
 
+- name: get output from cluster result
+  debug: 
+    var: cluster_result.stdout_lines
+
 - name: set cluster_command fact
   set_fact: 
     cluster_command: '{{ cluster_result.stdout }}'
 
 - name: join the master to the cluster
   shell: "{{cluster_command}} --etcd --controlplane"
+
+
+
