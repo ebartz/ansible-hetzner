@@ -8,7 +8,7 @@
     echo >>/etc/systemd/system/docker.service.d/http-proxy.conf [Service]
     echo >>/etc/systemd/system/docker.service.d/http-proxy.conf Environment=\"HTTP_PROXY='{{ vars.http_proxy }}'\"
     echo >>/etc/systemd/system/docker.service.d/http-proxy.conf Environment=\"HTTPS_PROXY='{{ vars.http_proxy }}'\"
-    # echo >>/etc/systemd/system/docker.service.d/http-proxy.conf Environment="NO_PROXY=$no_proxy"
+    echo >>/etc/systemd/system/docker.service.d/http-proxy.conf Environment=\"HTTPS_PROXY='{{ vars.no_proxy }}'\"
 
 - name: 'Restart Docker Systemd Service '
   systemd:
