@@ -7,6 +7,14 @@
 
 - name: Remove Certificates
   file:
-    path: /etc/kubernetes
+    path: '{{ item }}'  
     state: absent
+  loop:
+    - /var/lib/etcd
+    - /etc/kubernetes
+    - /etc/cni 
+    - /opt/cni 
+    - /var/lib/cni 
+    - /var/run/calico 
+    - /opt/rke
 
