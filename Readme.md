@@ -22,12 +22,12 @@ To run this, you need to do something like this:
 
 ```
 export HCLOUD_TOKEN=hetzner-token-goes-here
-ansible-playbook -i hcloud.yml site.yml
+ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i hcloud.yml site.yml
 ```
 ### Destroy Servers 
 ```
 export HCLOUD_TOKEN=hetzner-token-goes-here
-ansible-playbook -i hcloud.yml site.yml -e hetzner_serverstate=absent
+ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i hcloud.yml site.yml -e hetzner_serverstate=absent
 ```
 ### Cleanup Rancher Installation on Servers
 

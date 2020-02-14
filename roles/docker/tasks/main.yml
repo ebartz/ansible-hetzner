@@ -2,16 +2,16 @@
 - name: 'install docker'
   shell: 'curl https://releases.rancher.com/install-docker/18.09.sh | sh'
   environment:
-        http_proxy: '{{ vars.http_proxy }}'
-        https_proxy: '{{ vars.http_proxy }}'
+        HTTP_PROXY: '{{ vars.http_proxy }}'
+        HTTPS_PROXY: '{{ vars.http_proxy }}'
 
 - name: Install basic packages for Centos/Redhat
   yum: 
     state: present
     name: iscsi-initiator-utils
   environment:
-        http_proxy: '{{ vars.http_proxy }}'
-        https_proxy: '{{ vars.http_proxy }}'
+        HTTP_PROXY: '{{ vars.http_proxy }}'
+        HTTPS_PROXY: '{{ vars.http_proxy }}'
   when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
 - name: Install basic packages Debian/Ubuntu
@@ -19,8 +19,8 @@
     state: present
     name: open-iscsi
   environment:
-        http_proxy: '{{ vars.http_proxy }}'
-        https_proxy: '{{ vars.http_proxy }}'
+        HTTP_PROXY: '{{ vars.http_proxy }}'
+        HTTPS_PROXY: '{{ vars.http_proxy }}'
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: Make sure Docker is running
