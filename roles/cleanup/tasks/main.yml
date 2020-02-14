@@ -1,0 +1,12 @@
+---
+- name: 'cleanup conainers'
+  shell: 'docker rm -f $(docker ps -aq) || true'
+
+- name: 'cleanup images'
+  shell: 'docker rmi -f $(docker images -q) || true'
+
+- name: Remove Certificates
+  file:
+    path: /etc/kubernetes
+    state: absent
+
