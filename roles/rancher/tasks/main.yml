@@ -75,7 +75,7 @@
   when: set_proxy
 
 - name: create rancher master container without proxy
-  shell: docker run -d --restart=unless-stopped -p 80:80 -p 443:443 rancher/rancher || true
+  shell: docker run -d --restart=unless-stopped --privileged -p 80:80 -p 443:443 rancher/rancher || true
   when: not set_proxy
   
 
